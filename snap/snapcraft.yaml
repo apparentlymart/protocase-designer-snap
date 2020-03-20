@@ -1,0 +1,59 @@
+name: protocase-designer
+base: core18
+version: "4.9"
+summary: Free CAD Software for custom enclosures, panels and parts
+description: |
+  Protocase Designer is free 3D CAD software that makes designing a custom
+  enclosure, panel or component extremely easy. The software offers dozens of
+  templates for enclosures, panels and brackets, each customizable by material,
+  size, color and more. Choose the template that matches your requirements,
+  then immediately begin working with a blank 3-D model. Start editing by
+  adding cutouts, mounting hardware, labelling and graphics until your design
+  is exactly how you want. At any time in your design, get a real-time instant
+  quote. When you're ready, order your design online and Protocase will build
+  it in 2-3 days, with no minimum order.
+
+grade: devel
+confinement: devmode
+
+apps:
+  protocase-designer:
+    command: bin/ProtocaseDesigner
+    extensions:
+      - gnome-3-28
+    plugs:
+      - home
+      - network
+      - cups-control
+    environment:
+      JAVA_HOME: $SNAP/ProtocaseDesigner/jre
+
+parts:
+  protocase-designer-lib:
+    plugin: dump
+    source: protocaseDesigner-linux-amd64.tar.gz
+    organize:
+      "Protocase Designer": "ProtocaseDesigner"
+    stage-packages:
+      - libxext6
+      - libxrender1
+      - libxtst6
+      - libxi6
+      - libfontconfig1
+      - ttf-mscorefonts-installer
+      - fonts-noto
+      - fonts-cabin
+      - libglu1-mesa
+  protocase-designer:
+    plugin: dump
+    source: ./extras
+  opencascade:
+    plugin: cmake
+    source: opencascade-7.3.0.tgz
+    build-packages:
+      - libfreetype6-dev
+      - tcl
+      - tcl-dev
+      - tk-dev
+      - doxygen
+      - libxmu-dev
